@@ -1,163 +1,392 @@
-```jsx
-// /src/pages/index.jsx
-import { motion } from "framer-motion";
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEAUTYVIBE - Оригинальная косметика из США и Кореи</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        .fade-in { opacity: 0; animation: fadeIn 0.8s ease-in forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .slide-up { transform: translateY(40px); opacity: 0; animation: slideUp 0.8s ease-out forwards; }
+        @keyframes slideUp { to { transform: translateY(0); opacity: 1; } }
+        .quiz-transition { transition: all 0.3s ease-in-out; }
+        .quiz-card { cursor: pointer; border: 2px solid #e5e7eb; }
+        .quiz-card:hover { border-color: #000; transform: translateY(-4px); }
+        .quiz-card.selected { border-color: #000; background-color: #f3f4f6; }
+    </style>
+</head>
+<body class="bg-white text-gray-900 font-sans">
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0 }
-};
-
-export default function Home() {
-  return (
-    <div className="bg-white text-gray-900 font-sans">
-      {/* HERO */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-6">
-        <motion.h1
-          initial="hidden"
-          animate="visible"
-          variants={fadeUp}
-          className="text-4xl md:text-6xl font-semibold max-w-4xl"
-        >
-          Оригинальная косметика из США и Кореи с доставкой по России
-        </motion.h1>
-
-        <motion.p
-          initial="hidden"
-          animate="visible"
-          variants={fadeUp}
-          className="mt-6 text-lg text-gray-600 max-w-2xl"
-        >
-          Хиты Sephora, TikTok и корейского beauty-рынка — без подделок, без переплат и без риска
-        </motion.p>
-
-        <p className="mt-4 font-medium">100% оригинал или возврат денег</p>
-
-        <div className="mt-8 flex gap-4">
-          <button className="px-6 py-3 bg-black text-white rounded-full">
-            Смотреть каталог
-          </button>
-          <button className="px-6 py-3 border rounded-full">
-            Бестселлеры
-          </button>
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 bg-white shadow-sm z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">BEAUTYVIBE</h1>
+            <div class="flex gap-6">
+                <button onclick="scrollToQuiz()" class="hover:text-gray-600">Quiz</button>
+                <button class="px-4 py-2 bg-black text-white rounded-full">Корзина</button>
+            </div>
         </div>
-      </section>
+    </nav>
 
-      {/* SOCIAL PROOF */}
-      <section className="py-20 px-6 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-semibold text-center">
-          Нам доверяют
-        </h2>
-        <div className="grid md:grid-cols-3 gap-6 mt-10">
-          {["Rare Beauty оригинал", "Быстрая доставка", "Реальный эффект"].map(
-            (t, i) => (
-              <motion.div
-                key={i}
-                initial="hidden"
-                whileInView="visible"
-                variants={fadeUp}
-                className="p-6 border rounded-2xl"
-              >
-                <p className="text-gray-700">{t}</p>
-              </motion.div>
-            )
-          )}
-        </div>
-      </section>
-
-      {/* BESTSELLERS */}
-      <section className="py-20 bg-gray-50 px-6">
-        <h2 className="text-3xl font-semibold text-center">
-          Хиты продаж
-        </h2>
-
-        <div className="grid md:grid-cols-4 gap-6 mt-10 max-w-6xl mx-auto">
-          {["Rare Beauty", "Charlotte Tilbury", "Hourglass", "Jo Malone"].map(
-            (item, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.05 }}
-                className="bg-white p-6 rounded-2xl shadow-sm"
-              >
-                <div className="h-40 bg-gray-200 rounded-xl mb-4" />
-                <h3 className="font-medium">{item}</h3>
-                <p className="text-sm text-gray-500">Хит недели</p>
-              </motion.div>
-            )
-          )}
-        </div>
-      </section>
-
-      {/* BENEFITS */}
-      <section className="py-20 px-6 max-w-5xl mx-auto">
-        <h2 className="text-3xl text-center font-semibold">
-          Почему BEAUTYVIBE
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-6 mt-10">
-          {[
-            "Только оригинальная продукция",
-            "Прямые поставки",
-            "Проверка каждого товара",
-            "Быстрая доставка",
-            "Редкие позиции",
-            "Поддержка"
-          ].map((b, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              className="p-4 border rounded-xl"
-            >
-              {b}
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* CATEGORIES */}
-      <section className="py-20 bg-gray-50 px-6">
-        <h2 className="text-3xl text-center font-semibold">Категории</h2>
-
-        <div className="grid md:grid-cols-4 gap-6 mt-10 max-w-6xl mx-auto">
-          {["Уход", "Макияж", "Волосы", "Парфюм"].map((c, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ scale: 1.05 }}
-              className="h-40 bg-white rounded-2xl flex items-center justify-center shadow-sm"
-            >
-              {c}
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* TRUST */}
-      <section className="py-20 px-6 max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl font-semibold">Покупка без риска</h2>
-        <p className="mt-6 text-gray-600">
-          Гарантия возврата • Оригинальная упаковка • Поддержка
+    <!-- HERO -->
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 bg-gradient-to-b from-gray-50 to-white">
+        <h1 class="slide-up text-5xl md:text-7xl font-bold max-w-4xl leading-tight">
+            Оригинальная косметика из США и Кореи
+        </h1>
+        <p class="slide-up mt-6 text-xl text-gray-600 max-w-2xl" style="animation-delay: 0.2s;">
+            Хиты Sephora, TikTok и корейского beauty-рынка — без подделок
         </p>
-      </section>
+        <p class="mt-4 font-semibold text-lg">✓ 100% оригинал или возврат денег</p>
+        <div class="mt-10 flex gap-4 flex-wrap justify-center">
+            <button class="px-8 py-4 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 transition">
+                🛍️ Смотреть каталог
+            </button>
+            <button onclick="scrollToQuiz()" class="px-8 py-4 border-2 border-black rounded-full text-lg font-semibold hover:bg-gray-100 transition">
+                ✨ Пройти Quiz
+            </button>
+        </div>
+    </section>
 
-      {/* URGENCY */}
-      <section className="py-20 bg-black text-white text-center">
-        <h2 className="text-3xl font-semibold">
-          Поставки ограничены
-        </h2>
-        <p className="mt-4 text-gray-300">
-          Следующая партия через 1–2 недели
-        </p>
-        <button className="mt-6 px-8 py-3 bg-white text-black rounded-full">
-          Заказать сейчас
-        </button>
-      </section>
+    <!-- СОЦИАЛЬНОЕ ДОКАЗАТЕЛЬСТВО -->
+    <section class="py-20 px-6 max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold text-center">Нам доверяют 50K+ клиентов</h2>
+        <div class="grid md:grid-cols-3 gap-8 mt-12">
+            <div class="p-8 bg-gray-50 rounded-2xl text-center">
+                <div class="text-5xl mb-4">🎯</div>
+                <h3 class="text-2xl font-semibold mb-2">100% Оригинал</h3>
+                <p class="text-gray-600">Сертификация от производителей, проверка каждого товара</p>
+            </div>
+            <div class="p-8 bg-gray-50 rounded-2xl text-center">
+                <div class="text-5xl mb-4">🚚</div>
+                <h3 class="text-2xl font-semibold mb-2">1-3 дня доставка</h3>
+                <p class="text-gray-600">По России с отслеживанием и страховкой</p>
+            </div>
+            <div class="p-8 bg-gray-50 rounded-2xl text-center">
+                <div class="text-5xl mb-4">💝</div>
+                <h3 class="text-2xl font-semibold mb-2">Гарантия возврата</h3>
+                <p class="text-gray-600">30 дней полного возврата без вопросов</p>
+            </div>
+        </div>
+    </section>
 
-      {/* FOOTER */}
-      <footer className="py-10 text-center text-sm text-gray-500">
-        BEAUTYVIBE © 2026
-      </footer>
-    </div>
-  );
-}
-```
+    <!-- BEAUTY QUIZ СЕКЦИЯ -->
+    <section id="quiz-section" class="py-24 px-6 bg-gradient-to-b from-gray-50 to-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-3">✨ Интеллектуальный Beauty Quiz</h2>
+                <p class="text-xl text-gray-600">Найдите идеальную косметику за 5 минут на основе вашего типа кожи и предпочтений</p>
+            </div>
+
+            <div id="quiz-container" class="bg-white rounded-2xl shadow-lg p-8">
+                <!-- STEP 1: ТИП КОЖИ -->
+                <div id="step1" class="quiz-step">
+                    <h3 class="text-2xl font-semibold mb-6">Шаг 1: Какой у вас тип кожи?</h3>
+                    <div class="grid md:grid-cols-2 gap-4" id="skinTypeOptions">
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="selectOption('skinType', 'oily', this)">
+                            <div class="text-3xl mb-2">🌊</div>
+                            <p class="font-semibold">Жирная кожа</p>
+                            <p class="text-sm text-gray-500">Блеск, расширенные поры</p>
+                        </div>
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="selectOption('skinType', 'dry', this)">
+                            <div class="text-3xl mb-2">🏜️</div>
+                            <p class="font-semibold">Сухая кожа</p>
+                            <p class="text-sm text-gray-500">Шелушение, стянутость</p>
+                        </div>
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="selectOption('skinType', 'combination', this)">
+                            <div class="text-3xl mb-2">⚖️</div>
+                            <p class="font-semibold">Комбинированная</p>
+                            <p class="text-sm text-gray-500">Блеск в Т-зоне</p>
+                        </div>
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="selectOption('skinType', 'sensitive', this)">
+                            <div class="text-3xl mb-2">🌸</div>
+                            <p class="font-semibold">Чувствительная</p>
+                            <p class="text-sm text-gray-500">Раздражение, покраснение</p>
+                        </div>
+                    </div>
+                    <button onclick="nextStep(1)" class="mt-8 w-full px-6 py-3 bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition">
+                        Далее →
+                    </button>
+                </div>
+
+                <!-- STEP 2: ГЛАВНАЯ ПРОБЛЕМА -->
+                <div id="step2" class="quiz-step hidden">
+                    <h3 class="text-2xl font-semibold mb-6">Шаг 2: Какая ваша главная проблема?</h3>
+                    <div class="grid md:grid-cols-2 gap-4" id="problemOptions">
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="selectOption('problem', 'acne', this)">
+                            <div class="text-3xl mb-2">🚨</div>
+                            <p class="font-semibold">Акне & Прыщи</p>
+                        </div>
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="selectOption('problem', 'wrinkles', this)">
+                            <div class="text-3xl mb-2">🌟</div>
+                            <p class="font-semibold">Морщины & Возраст</p>
+                        </div>
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="selectOption('problem', 'pigmentation', this)">
+                            <div class="text-3xl mb-2">🎨</div>
+                            <p class="font-semibold">Пигментация & Темные пятна</p>
+                        </div>
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="selectOption('problem', 'dullness', this)">
+                            <div class="text-3xl mb-2">💫</div>
+                            <p class="font-semibold">Тускл. кожа & Усталость</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 mt-8">
+                        <button onclick="prevStep()" class="w-full px-6 py-3 bg-gray-200 text-black rounded-full font-semibold hover:bg-gray-300 transition">
+                            ← Назад
+                        </button>
+                        <button onclick="nextStep(2)" class="w-full px-6 py-3 bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition">
+                            Далее →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: БЮДЖЕТ & КАТЕГОРИЯ -->
+                <div id="step3" class="quiz-step hidden">
+                    <h3 class="text-2xl font-semibold mb-6">Шаг 3: В каких категориях вам нужна косметика?</h3>
+                    <div class="grid md:grid-cols-4 gap-4" id="categoryOptions">
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="toggleCategory('skincare', this)">
+                            <div class="text-3xl mb-2">🧴</div>
+                            <p class="font-semibold">Уход за кожей</p>
+                        </div>
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="toggleCategory('makeup', this)">
+                            <div class="text-3xl mb-2">💄</div>
+                            <p class="font-semibold">Макияж</p>
+                        </div>
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="toggleCategory('haircare', this)">
+                            <div class="text-3xl mb-2">💆</div>
+                            <p class="font-semibold">Уход за волосами</p>
+                        </div>
+                        <div class="quiz-card p-6 rounded-xl text-center" onclick="toggleCategory('fragrance', this)">
+                            <div class="text-3xl mb-2">🌸</div>
+                            <p class="font-semibold">Парфюм</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 mt-8">
+                        <button onclick="prevStep()" class="w-full px-6 py-3 bg-gray-200 text-black rounded-full font-semibold hover:bg-gray-300 transition">
+                            ← Назад
+                        </button>
+                        <button onclick="nextStep(3)" class="w-full px-6 py-3 bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition">
+                            Получить рекомендации →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- РЕЗУЛЬТАТЫ -->
+                <div id="results" class="hidden">
+                    <div class="text-center mb-10">
+                        <h3 class="text-3xl font-bold mb-2">✨ Ваша персональная подборка</h3>
+                        <p class="text-gray-600">На основе анализа ваших предпочтений</p>
+                    </div>
+
+                    <div id="recommendationsContainer" class="grid md:grid-cols-2 gap-6 mb-8">
+                        <!-- Рекомендации будут добавлены JS -->
+                    </div>
+
+                    <button onclick="restartQuiz()" class="w-full px-6 py-3 bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition">
+                        Пройти Quiz заново
+                    </button>
+                </div>
+            </div>
+
+            <!-- ЛОГИКА РЕКОМЕНДАЦИЙ (СКРЫТАЯ) -->
+            <script>
+                const recommendations = {
+                    oily_acne_skincare: {
+                        title: "Salicylic Acid Cleanser",
+                        brand: "Neutrogena",
+                        price: "450₽",
+                        desc: "Глубокая очистка пор и борьба с акне",
+                        rating: "4.8/5"
+                    },
+                    oily_wrinkles_skincare: {
+                        title: "Retinol Night Cream",
+                        brand: "Olay",
+                        price: "2500₽",
+                        desc: "Мощный антивозрастной уход без масла",
+                        rating: "4.9/5"
+                    },
+                    dry_acne_skincare: {
+                        title: "Moisturizing Acne Serum",
+                        brand: "La Roche-Posay",
+                        price: "1800₽",
+                        desc: "Борьба с прыщами без пересушивания",
+                        rating: "4.7/5"
+                    },
+                    sensitive_pigmentation_skincare: {
+                        title: "Niacinamide Serum",
+                        brand: "The Ordinary",
+                        price: "600₽",
+                        desc: "Осветление и уход за чувствительной кожей",
+                        rating: "4.8/5"
+                    },
+                    combination_dullness_makeup: {
+                        title: "Glow Highlighter",
+                        brand: "Charlotte Tilbury",
+                        price: "3200₽",
+                        desc: "Естественное сияние для тускл. кожи",
+                        rating: "4.9/5"
+                    },
+                    default: {
+                        title: "Beauty Box Premium",
+                        brand: "BEAUTYVIBE Selection",
+                        price: "5999₽",
+                        desc: "Набор лучших продуктов для вашего типа кожи",
+                        rating: "5.0/5"
+                    }
+                };
+
+                let quizState = {
+                    skinType: null,
+                    problem: null,
+                    categories: []
+                };
+
+                function selectOption(key, value, element) {
+                    quizState[key] = value;
+                    document.querySelectorAll(`#${key}Options .quiz-card, #problemOptions .quiz-card`).forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    element.classList.add('selected');
+                }
+
+                function toggleCategory(category, element) {
+                    if (quizState.categories.includes(category)) {
+                        quizState.categories = quizState.categories.filter(c => c !== category);
+                        element.classList.remove('selected');
+                    } else {
+                        quizState.categories.push(category);
+                        element.classList.add('selected');
+                    }
+                }
+
+                function nextStep(currentStep) {
+                    if (currentStep === 1 && !quizState.skinType) {
+                        alert('Выберите тип кожи');
+                        return;
+                    }
+                    if (currentStep === 2 && !quizState.problem) {
+                        alert('Выберите проблему');
+                        return;
+                    }
+                    if (currentStep === 3 && quizState.categories.length === 0) {
+                        alert('Выберите хотя бы одну категорию');
+                        return;
+                    }
+
+                    if (currentStep === 3) {
+                        showResults();
+                    } else {
+                        document.getElementById(`step${currentStep}`).classList.add('hidden');
+                        document.getElementById(`step${currentStep + 1}`).classList.remove('hidden');
+                    }
+                }
+
+                function prevStep() {
+                    for (let i = 1; i <= 3; i++) {
+                        if (!document.getElementById(`step${i}`).classList.contains('hidden')) {
+                            if (i > 1) {
+                                document.getElementById(`step${i}`).classList.add('hidden');
+                                document.getElementById(`step${i - 1}`).classList.remove('hidden');
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                function showResults() {
+                    const key = `${quizState.skinType}_${quizState.problem}_${quizState.categories[0] || 'skincare'}`;
+                    const recommendation = recommendations[key] || recommendations.default;
+
+                    document.getElementById('step3').classList.add('hidden');
+                    document.getElementById('results').classList.remove('hidden');
+
+                    const html = `
+                        <div class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-xl border border-gray-200">
+                            <div class="flex gap-6 md:flex-row flex-col">
+                                <div class="w-40 h-40 bg-gray-300 rounded-xl flex-shrink-0"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm text-gray-500 uppercase tracking-wide">${recommendation.brand}</p>
+                                    <h4 class="text-2xl font-bold my-2">${recommendation.title}</h4>
+                                    <p class="text-gray-600 mb-4">${recommendation.desc}</p>
+                                    <div class="flex items-center gap-4 mb-4">
+                                        <span class="text-2xl font-bold text-black">${recommendation.price}</span>
+                                        <span class="bg-yellow-100 px-3 py-1 rounded-full text-sm font-semibold">⭐ ${recommendation.rating}</span>
+                                    </div>
+                                    <button class="px-6 py-2 bg-black text-white rounded-full font-semibold hover:bg-gray-800">
+                                        Добавить в корзину
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('recommendationsContainer').innerHTML = html;
+                }
+
+                function restartQuiz() {
+                    quizState = { skinType: null, problem: null, categories: [] };
+                    document.querySelectorAll('.quiz-card').forEach(el => el.classList.remove('selected'));
+                    document.getElementById('results').classList.add('hidden');
+                    document.getElementById('step1').classList.remove('hidden');
+                }
+
+                function scrollToQuiz() {
+                    document.getElementById('quiz-section').scrollIntoView({ behavior: 'smooth' });
+                }
+            </script>
+        </div>
+    </section>
+
+    <!-- БЕСТСЕЛЛЕРЫ -->
+    <section class="py-20 bg-gray-50 px-6">
+        <h2 class="text-4xl font-bold text-center mb-12">💎 Бестселлеры 2026</h2>
+        <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition">
+                <div class="h-48 bg-gradient-to-br from-pink-100 to-purple-100 rounded-xl mb-4"></div>
+                <h3 class="font-bold text-lg">Rare Beauty Liquid</h3>
+                <p class="text-sm text-gray-500 mb-2">Помада</p>
+                <p class="text-xl font-bold">2999₽</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition">
+                <div class="h-48 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-xl mb-4"></div>
+                <h3 class="font-bold text-lg">Charlotte Tilbury</h3>
+                <p class="text-sm text-gray-500 mb-2">Хайлайтер</p>
+                <p class="text-xl font-bold">3200₽</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition">
+                <div class="h-48 bg-gradient-to-br from-blue-100 to-green-100 rounded-xl mb-4"></div>
+                <h3 class="font-bold text-lg">SK-II Serum</h3>
+                <p class="text-sm text-gray-500 mb-2">Сыворотка</p>
+                <p class="text-xl font-bold">5999₽</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition">
+                <div class="h-48 bg-gradient-to-br from-rose-100 to-red-100 rounded-xl mb-4"></div>
+                <h3 class="font-bold text-lg">Jo Malone Cologne</h3>
+                <p class="text-sm text-gray-500 mb-2">Парфюм</p>
+                <p class="text-xl font-bold">4500₽</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA КОНЕЦ -->
+    <section class="py-24 bg-black text-white text-center px-6">
+        <h2 class="text-4xl font-bold mb-4">🎁 Скидка 20% на первый заказ</h2>
+        <p class="text-xl text-gray-300 mb-8">Введите код FIRST20 при оформлении</p>
+        <div class="flex gap-4 justify-center flex-wrap">
+            <button class="px-8 py-3 bg-white text-black rounded-full font-semibold hover:bg-gray-100 transition">
+                Купить сейчас
+            </button>
+            <button onclick="scrollToQuiz()" class="px-8 py-3 border-2 border-white rounded-full font-semibold hover:bg-gray-900 transition">
+                Пройти Quiz
+            </button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 text-center text-sm text-gray-500 border-t">
+        <p class="mb-2">BEAUTYVIBE © 2026 | Оригинальная косметика с доставкой по России</p>
+        <p>Контакты: support@beautyvibe.ru | +7 (999) 123-45-67</p>
+    </footer>
+
+</body>
+</html>
